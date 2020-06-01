@@ -1,3 +1,11 @@
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+	
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    JugadorPrincipal.startEffect(effects.disintegrate, 500)
+    game.over(false, effects.melt)
+})
+let JugadorPrincipal: Sprite = null
 scene.setBackgroundImage(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -121,7 +129,7 @@ f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f f 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 `)
 scene.setBackgroundColor(1)
-let JugadorPrincipal = sprites.create(img`
+JugadorPrincipal = sprites.create(img`
 . . . . . . 8 2 2 8 . . . 7 . . 
 . . . . . . 8 8 8 8 . . . 7 . . 
 . . . . . . . 8 8 . . . . 7 . . 
@@ -139,6 +147,7 @@ let JugadorPrincipal = sprites.create(img`
 . . . . e e . . . e e . . . . . 
 . . . e e e . . . e e e . . . . 
 `, SpriteKind.Player)
+JugadorPrincipal.setPosition(25, 87)
 let EnemigoPequeño = sprites.create(img`
 . . . . c c c c c c . . . . . . 
 . . . c 6 7 7 7 7 6 c . . . . . 
@@ -157,6 +166,7 @@ f 6 1 1 1 1 1 6 6 6 6 6 c f . .
 . f 6 1 1 1 1 1 1 6 6 6 f . . . 
 . . c c c c c c c c c f . . . . 
 `, SpriteKind.Enemy)
+EnemigoPequeño.setPosition(144, 87)
 let DisparoJugador = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -175,9 +185,11 @@ let DisparoJugador = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `, SpriteKind.Projectile)
-controller.moveSprite(DisparoJugador)
-music.setVolume(12)
+controller.moveSprite(JugadorPrincipal)
+music.setVolume(10)
 music.playMelody("E B C5 A B G A F ", 120)
+info.setScore(0)
+EnemigoPequeño.follow(JugadorPrincipal, 30)
 forever(function () {
 	
 })
